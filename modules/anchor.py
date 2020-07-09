@@ -46,8 +46,8 @@ def prior_box_tf(image_sizes, min_sizes, steps, clip=False):
         cy = (grid_y + 0.5) * steps[k] / image_sizes[0]
         cxcy = tf.stack([cx, cy], axis=-1)
         cxcy = tf.reshape(cxcy, [-1, 2])
-		#tf version 1.4.0
-        if tf.__version__ == '1.4.0':
+		#tf version 1.14.0
+        if tf.__version__ == '1.14.0':
             cxcy = tf.reshape(tf.tile(cxcy, [1, tf.shape(min_sizes[k])[0]]), [-1,2])
         else:
             cxcy = tf.repeat(cxcy, repeats=tf.shape(min_sizes[k])[0], axis=0)
@@ -56,7 +56,7 @@ def prior_box_tf(image_sizes, min_sizes, steps, clip=False):
         sy = min_sizes[k] / image_sizes[0]
         sxsy = tf.stack([sx, sy], 1)
 
-        if tf.__version__ == '1.4.0':
+        if tf.__version__ == '1.14.0':
             sxsy = tf.tile(sxsy[tf.newaxis], [tf.shape(grid_x)[0] * tf.shape(grid_x)[1],1,1])
         else:
             sxsy = tf.repeat(sxsy[tf.newaxis],
